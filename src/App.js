@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './App.css';
-const emailRegex = RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+
+const emailRegex = RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/); // regular expression for email validation
 const formValid = formErrors => {
   let valid = true;
   Object.values(formErrors).forEach(val => {
@@ -8,7 +9,6 @@ const formValid = formErrors => {
   });
   return valid;
 }
-
 export default class App extends Component {
   constructor(props) {
     super(props)
@@ -24,6 +24,10 @@ export default class App extends Component {
         email: '',
         password: '',
         reenterpassword: '',
+      },
+      comp :{
+          email:'harish.sq@gmail.com',
+         password:12345678,
       }
     }
   }
@@ -38,13 +42,19 @@ export default class App extends Component {
       Password : ${this.state.password}
       Re Enter Password:${this.state.reenterpassword}
       `)
+      }
     }
-  }
+  
   handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
     let formErrors = this.state.formErrors;
+    let valemail = this.state.comp.email;
+    let valpassword = this.state.comp.password;
     let password = this.state.password;
+
+
+    
     let reenterpassword = this.state.reenterpassword;
     switch (name) {
       case 'firstName':
@@ -57,7 +67,7 @@ export default class App extends Component {
         formErrors.email = emailRegex.test(value) ? '' : 'Invalid email id';
         break;
       case 'password':
-        formErrors.password = value.length < 6 ? 'minimum 6 characters required' : '';
+        formErrors.password =  value.length < 6 ?  '' : 'password should be more than 6';
         break;
       case 'reenterpassword':
         formErrors.reenterpassword = password !== reenterpassword ? '' : 'password does not match';
@@ -66,7 +76,9 @@ export default class App extends Component {
         break;
     }
     this.setState({ formErrors, [name]: value }, () => console.log(this.state));
-    console.log(this.state.password);
+    console.log(password);
+    console.log(valpassword);
+    console.log(valemail);
     console.log(this.state.reenterpassword);
   }
   render() {
@@ -114,7 +126,7 @@ export default class App extends Component {
               </div>
               <div className="createAccount">
                 <button type="submit">Create Account</button>
-                <a href="#">I Already Have An Account</a>
+                <a>Already have a Account</a>
               </div>
             </form>
           </div>
@@ -123,3 +135,4 @@ export default class App extends Component {
     )
   }
 }
+
